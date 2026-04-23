@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yakup Yılmaz Boru Profil A.Ş. | Demir Çelik ve Metal Sanayi</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        industrial: {
+                            50: "#f6f7f8", 100: "#e5e7eb", 200: "#d1d5db",
+                            300: "#9ca3af", 400: "#6b7280", 500: "#4b5563",
+                            600: "#374151", 700: "#1f2937", 800: "#111827", 900: "#030712"
+                        },
+                        safety: { DEFAULT: "#FF5733", dark: "#E64A19", light: "#FF8A65" },
+                        deep: { DEFAULT: "#1E3A5F", dark: "#152A45", light: "#2C5282" }
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "system-ui", "sans-serif"],
+                        montserrat: ["Montserrat", "system-ui", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-nav-transparent {
+            backdrop-filter: none;
+            background: transparent;
+            border-bottom: none;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 6s ease-out;
+        }
+
+        .hero-slide.active img {
+            transform: scale(1);
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .hero-slide.active .hero-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-slide.active .hc-d1 {
+            transition-delay: 0.3s;
+        }
+
+        .hero-slide.active .hc-d2 {
+            transition-delay: 0.5s;
+        }
+
+        .hero-slide.active .hc-d3 {
+            transition-delay: 0.7s;
+        }
+
+        .hero-slide.active .hc-d4 {
+            transition-delay: 0.9s;
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card {
+            transition: all 0.5s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+            transition: transform 0.7s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .feature-card {
+            transition: all 0.5s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card .icon-box {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .icon-box {
+            background: #FF5733;
+            color: white;
+        }
+
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #FF5733;
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(255, 87, 51, 0.4);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FF5733;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .indicator {
+            transition: all 0.5s ease;
+        }
+
+        .indicator.active {
+            width: 48px;
+            background: #FF5733;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .gradient-overlay {
+            background: linear-gradient(to right, rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.6), transparent);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #FF5733, #1E3A5F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+    <base target="_blank">
+</head>
+
+<body class="bg-industrial-50 text-industrial-800 antialiased">
+
+    <!-- NAVBAR -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 glass-nav-transparent py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <a href="#anasayfa" class="flex items-center gap-3 group">
+                    <div
+                        class="w-12 h-12 bg-deep rounded-lg flex items-center justify-center overflow-hidden group-hover:bg-safety transition-colors duration-300">
+                        <span class="text-white font-bold text-xl font-montserrat">YY</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <h1 class="font-bold text-lg leading-tight font-montserrat text-white transition-colors"
+                            id="logo-title">YAKUP YILMAZ</h1>
+                        <p class="text-xs tracking-widest text-industrial-300 transition-colors" id="logo-sub">BORU
+                            PROFİL A.Ş.</p>
+                    </div>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a href="#anasayfa"
+                        class="nav-link text-sm font-medium text-white/90 hover:text-safety transition-colors">Ana
+                        Sayfa</a>
+                    <a href="#urunler"
+                        class="nav-link text-sm font-medium text-white/90 hover:text-safety transition-colors">Ürünler</a>
+                    <a href="#neden-biz"
+                        class="nav-link text-sm font-medium text-white/90 hover:text-safety transition-colors">Neden
+                        Biz?</a>
+                    <a href="#iletisim"
+                        class="nav-link text-sm font-medium text-white/90 hover:text-safety transition-colors">İletişim</a>
+                </nav>
+
+                <div class="hidden lg:flex items-center gap-4">
+                    <a href="tel:+903123150001"
+                        class="flex items-center gap-2 text-sm font-medium text-white transition-colors">
+                        <svg class="w-4 h-4 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        0312 315 00 01
+                    </a>
+                    <a href="#iletisim"
+                        class="px-6 py-2.5 bg-safety text-white font-semibold rounded-lg hover:bg-safety-dark transition-all duration-300 text-sm">Teklif
+                        Al</a>
+                </div>
+
+                <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-lg text-white transition-colors">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="mobile-menu lg:hidden bg-white border-t border-industrial-100">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#anasayfa" class="block py-2 text-lg font-medium text-industrial-800 hover:text-safety">Ana
+                    Sayfa</a>
+                <a href="#urunler"
+                    class="block py-2 text-lg font-medium text-industrial-800 hover:text-safety">Ürünler</a>
+                <a href="#neden-biz" class="block py-2 text-lg font-medium text-industrial-800 hover:text-safety">Neden
+                    Biz?</a>
+                <a href="#iletisim"
+                    class="block py-2 text-lg font-medium text-industrial-800 hover:text-safety">İletişim</a>
+                <div class="pt-4 border-t border-industrial-100">
+                    <a href="tel:+903123150001" class="flex items-center gap-2 text-safety font-medium">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                        0312 315 00 01
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SLIDER -->
+    <section id="anasayfa" class="relative h-screen w-full overflow-hidden bg-industrial-900">
+        <div id="hero-slider" class="relative w-full h-full">
+            <div class="hero-slide active" data-slide="0">
+                <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80"
+                    alt="Endüstriyel Çelik Depo">
+                <div class="absolute inset-0 gradient-overlay"></div>
+                <div class="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+                    <div class="max-w-4xl">
+                        <div class="hero-content hc-d1">
+                            <span
+                                class="inline-block px-4 py-2 bg-safety/20 text-safety rounded-full text-sm font-semibold mb-6 backdrop-blur-sm border border-safety/30">Yakup
+                                Yılmaz Boru Profil A.Ş.</span>
+                        </div>
+                        <h1
+                            class="hero-content hc-d2 text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
+                            Endüstriyel Gücün<br><span class="text-safety">Güvenilir Adresi</span>
+                        </h1>
+                        <p
+                            class="hero-content hc-d3 text-lg md:text-xl text-industrial-200 max-w-2xl mb-10 leading-relaxed">
+                            25 yılı aşkın tecrübemizle Türkiye'nin dört bir yanına kaliteli demir çelik ürünleri
+                            sunuyoruz.
+                        </p>
+                        <div class="hero-content hc-d4 flex flex-wrap gap-4">
+                            <a href="#urunler"
+                                class="px-8 py-4 bg-safety text-white font-semibold rounded-lg hover:bg-safety-dark transition-all duration-300 hover:shadow-xl hover:shadow-safety/25 flex items-center gap-2 group">
+                                Ürünleri Keşfet
+                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                            <a href="#iletisim"
+                                class="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white hover:text-industrial-900 transition-all duration-300">İletişime
+                                Geç</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="1">
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80"
+                    alt="CNC Lazer Kesim">
+                <div class="absolute inset-0 gradient-overlay"></div>
+                <div class="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+                    <div class="max-w-4xl">
+                        <div class="hero-content hc-d1">
+                            <span
+                                class="inline-block px-4 py-2 bg-safety/20 text-safety rounded-full text-sm font-semibold mb-6 backdrop-blur-sm border border-safety/30">Yakup
+                                Yılmaz Boru Profil A.Ş.</span>
+                        </div>
+                        <h1
+                            class="hero-content hc-d2 text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
+                            CNC Lazer Kesim<br><span class="text-safety">Teknolojisi</span>
+                        </h1>
+                        <p
+                            class="hero-content hc-d3 text-lg md:text-xl text-industrial-200 max-w-2xl mb-10 leading-relaxed">
+                            Paslanmaz çelik, alüminyum ve sac metal malzemelerde hassas kesim çözümleri.
+                        </p>
+                        <div class="hero-content hc-d4 flex flex-wrap gap-4">
+                            <a href="#urunler"
+                                class="px-8 py-4 bg-safety text-white font-semibold rounded-lg hover:bg-safety-dark transition-all duration-300 hover:shadow-xl hover:shadow-safety/25 flex items-center gap-2 group">
+                                Detaylı Bilgi
+                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                            <a href="#iletisim"
+                                class="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white hover:text-industrial-900 transition-all duration-300">İletişime
+                                Geç</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-slide" data-slide="2">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80"
+                    alt="Hızlı Sevkiyat">
+                <div class="absolute inset-0 gradient-overlay"></div>
+                <div class="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+                    <div class="max-w-4xl">
+                        <div class="hero-content hc-d1">
+                            <span
+                                class="inline-block px-4 py-2 bg-safety/20 text-safety rounded-full text-sm font-semibold mb-6 backdrop-blur-sm border border-safety/30">Yakup
+                                Yılmaz Boru Profil A.Ş.</span>
+                        </div>
+                        <h1
+                            class="hero-content hc-d2 text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
+                            Hızlı Sevkiyat<br><span class="text-safety">Uygun Fiyat</span>
+                        </h1>
+                        <p
+                            class="hero-content hc-d3 text-lg md:text-xl text-industrial-200 max-w-2xl mb-10 leading-relaxed">
+                            Ostim ve Kazan şubelerimizle stoktan teslimat, rekabetçi fiyat politikası.
+                        </p>
+                        <div class="hero-content hc-d4 flex flex-wrap gap-4">
+                            <a href="#iletisim"
+                                class="px-8 py-4 bg-safety text-white font-semibold rounded-lg hover:bg-safety-dark transition-all duration-300 hover:shadow-xl hover:shadow-safety/25 flex items-center gap-2 group">
+                                Teklif Al
+                                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                            <a href="#iletisim"
+                                class="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white hover:text-industrial-900 transition-all duration-300">İletişime
+                                Geç</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="prev-slide"
+            class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-safety transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button id="next-slide"
+            class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-safety transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+            <button class="indicator active h-1.5 rounded-full bg-white/40" data-slide="0"></button>
+            <button class="indicator h-1.5 w-6 rounded-full bg-white/40" data-slide="1"></button>
+            <button class="indicator h-1.5 w-6 rounded-full bg-white/40" data-slide="2"></button>
+        </div>
+
+        <div
+            class="absolute bottom-8 right-8 z-20 hidden md:flex flex-col items-center gap-2 text-white/60 animate-float">
+            <span class="text-xs tracking-widest uppercase rotate-90 origin-center translate-y-8">Scroll</span>
+        </div>
+    </section>
+
+    <!-- STATS COUNTER -->
+    <section class="bg-industrial-900 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5"
+            style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;">
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+                <div class="scroll-reveal text-center group">
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-safety/10 text-safety mb-6 group-hover:bg-safety group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white">
+                        <span class="counter" data-target="25">0</span>+
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Yıllık Tecrübe</h3>
+                    <p class="text-sm text-industrial-400">Sektördeki derin bilgi birikimimiz</p>
+                </div>
+                <div class="scroll-reveal text-center group" style="transition-delay: 0.1s;">
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-safety/10 text-safety mb-6 group-hover:bg-safety group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                        </svg>
+                    </div>
+                    <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white">
+                        <span class="counter" data-target="5000">0</span>+
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Başarılı Sevkiyat</h3>
+                    <p class="text-sm text-industrial-400">Her yıl binlerce teslimat</p>
+                </div>
+                <div class="scroll-reveal text-center group" style="transition-delay: 0.2s;">
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-safety/10 text-safety mb-6 group-hover:bg-safety group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white">
+                        <span class="counter" data-target="1200">0</span>+
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Mutlu Müşteri</h3>
+                    <p class="text-sm text-industrial-400">Türkiye geneli iş ortaklarımız</p>
+                </div>
+                <div class="scroll-reveal text-center group" style="transition-delay: 0.3s;">
+                    <div
+                        class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-safety/10 text-safety mb-6 group-hover:bg-safety group-hover:text-white transition-all duration-300">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white">
+                        <span class="counter" data-target="2">0</span>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Modern Şube</h3>
+                    <p class="text-sm text-industrial-400">Ostim & Kazan lokasyonları</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SHOWCASE -->
+    <section id="urunler" class="px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 py-20 lg:py-28 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="scroll-reveal text-center mb-16">
+                <span class="text-safety font-semibold text-sm tracking-widest uppercase mb-4 block">Ürün
+                    Portföyümüz</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-industrial-900 mb-6 font-montserrat">Endüstriyel Çelik
+                    Çözümleri</h2>
+                <p class="text-industrial-500 max-w-2xl mx-auto text-lg">İnşaat, makina, otomotiv ve enerji sektörlerine
+                    yönelik geniş ürün yelpazemiz</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 mb-12">
+                <button
+                    class="filter-btn active px-6 py-3 rounded-full text-sm font-medium bg-industrial-100 text-industrial-600 hover:bg-industrial-200"
+                    data-filter="all">Tümü</button>
+                <button
+                    class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-industrial-100 text-industrial-600 hover:bg-industrial-200"
+                    data-filter="borular">Borular</button>
+                <button
+                    class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-industrial-100 text-industrial-600 hover:bg-industrial-200"
+                    data-filter="profiller">Profiller</button>
+                <button
+                    class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-industrial-100 text-industrial-600 hover:bg-industrial-200"
+                    data-filter="saclar">Saclar</button>
+                <button
+                    class="filter-btn px-6 py-3 rounded-full text-sm font-medium bg-industrial-100 text-industrial-600 hover:bg-industrial-200"
+                    data-filter="hadde">Hadde</button>
+            </div>
+
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="borular">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=600&q=80"
+                            alt="Sanayi Boruları" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Borular</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            Sanayi Boruları</h3>
+                        <p class="text-industrial-500 text-sm mb-4">Doğalgaz, su ve yapısal uygulamalar için çelik
+                            borular</p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>DN15 - DN200
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Siyah / Galvaniz
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>St37 / St52
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="profiller" style="transition-delay: 0.1s;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80"
+                            alt="Kare ve Dikdörtgen Profiller" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Profiller</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            Kare ve Dikdörtgen Profiller</h3>
+                        <p class="text-industrial-500 text-sm mb-4">Makina sanayi ve inşaat sektörü için kesit profiller
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>10x10 - 400x400
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>S235JR / S275JR
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>6m - 12m Boy
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="saclar" style="transition-delay: 0.2s;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1535191030489-d98db0243e1a?w=600&q=80"
+                            alt="Dkp Sac ve Hr Sac" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Saclar</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            Dkp Sac ve Hr Sac</h3>
+                        <p class="text-industrial-500 text-sm mb-4">Soğuk haddelenmiş ve sıcak haddelenmiş sac levhalar
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>0.5mm - 20mm
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>1000mm - 2000mm Genişlik
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Rulo / Levha
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="hadde">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80"
+                            alt="NPU / NPI Profiller" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Hadde</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            NPU / NPI Profiller</h3>
+                        <p class="text-industrial-500 text-sm mb-4">Standart ve özel kesitli hadde ürünleri</p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>NPU 80 - NPU 400
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>HEA / HEB / HEM
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Lama ve Köşebent
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="borular" style="transition-delay: 0.1s;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80"
+                            alt="Paslanmaz Borular" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Borular</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            Paslanmaz Borular</h3>
+                        <p class="text-industrial-500 text-sm mb-4">304 ve 316 kalite paslanmaz çelik borular</p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>AISI 304 / 316
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Mat / Parlak Yüzey
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Gıda ve Kimya
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+
+                <div class="product-card scroll-reveal bg-industrial-50 rounded-2xl overflow-hidden group"
+                    data-category="profiller" style="transition-delay: 0.2s;">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80"
+                            alt="Galvaniz Profiller" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span
+                                class="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-industrial-800 rounded-full">Profiller</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3
+                            class="text-xl font-bold text-industrial-900 mb-2 group-hover:text-safety transition-colors">
+                            Galvaniz Profiller</h3>
+                        <p class="text-industrial-500 text-sm mb-4">Yüksek korozyon direnci galvaniz kaplı profiller</p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>GI Profiller
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Z275 Kaplama
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-industrial-600">
+                                <div class="w-1.5 h-1.5 rounded-full bg-safety"></div>Dış Cephe ve Konstrüksiyon
+                            </div>
+                        </div>
+                        <a href="#iletisim"
+                            class="inline-flex items-center gap-2 text-safety font-semibold text-sm group/link">Detaylı
+                            Bilgi <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY US -->
+    <section id="neden-biz"
+        class="px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 py-20 lg:py-28 bg-industrial-50 relative overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-96 h-96 bg-safety/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-96 h-96 bg-deep/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2">
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="scroll-reveal text-center mb-16">
+                <span class="text-safety font-semibold text-sm tracking-widest uppercase mb-4 block">Neden Biz?</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-industrial-900 mb-6 font-montserrat">Güvenilir Çelik
+                    Tedarikçiniz</h2>
+                <p class="text-industrial-500 max-w-2xl mx-auto text-lg">25 yılı aşkın tecrübemizle sektörün öncü
+                    firmalarından biri olarak hizmet veriyoruz</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">Kalite Garantisi</h3>
+                    <p class="text-industrial-500 leading-relaxed">TSE ve ISO standartlarına uygun, sertifikalı ürünler.
+                        Her parti detaylı kalite kontrolünden geçer.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100"
+                    style="transition-delay: 0.1s;">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">Hızlı Teslimat</h3>
+                    <p class="text-industrial-500 leading-relaxed">Ostim ve Kazan şubelerimizden stoktan teslimat
+                        imkanı. Aynı gün sevkiyat seçenekleri.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100"
+                    style="transition-delay: 0.2s;">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">CNC Lazer Kesim</h3>
+                    <p class="text-industrial-500 leading-relaxed">Modern CNC teknolojisiyle paslanmaz çelik, alüminyum
+                        ve sac malzemelerde hassas kesim.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">7/24 Destek</h3>
+                    <p class="text-industrial-500 leading-relaxed">Uzman satış ekibimizden teknik destek ve fiyat
+                        teklifi almak için WhatsApp hattımız aktif.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100"
+                    style="transition-delay: 0.1s;">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">Geniş Stok</h3>
+                    <p class="text-industrial-500 leading-relaxed">Boru, profil, sac ve hadde ürünlerinde zengin stok
+                        çeşitliliği ve özel sipariş imkanı.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal bg-white p-8 rounded-2xl shadow-sm border border-industrial-100"
+                    style="transition-delay: 0.2s;">
+                    <div
+                        class="icon-box w-14 h-14 rounded-xl bg-industrial-50 flex items-center justify-center mb-6 text-safety">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-industrial-900 mb-3">Rekabetçi Fiyat</h3>
+                    <p class="text-industrial-500 leading-relaxed">Doğrudan ithalat ve üretici ilişkileriyle en uygun
+                        fiyat garantisi sunuyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT CTA -->
+    <section id="iletisim" class="relative py-24 overflow-hidden">
+        <div class="absolute inset-0 bg-deep">
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: url('https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80'); background-size: cover; background-position: center;">
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="scroll-reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 font-montserrat">Hemen Teklif Alın</h2>
+                    <p class="text-industrial-200 text-lg mb-8 leading-relaxed">
+                        Demir çelik ihtiyaçlarınız için uzman ekibimizden hızlı fiyat teklifi alın. WhatsApp hattımızdan
+                        veya telefonla bize ulaşabilirsiniz.
+                    </p>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-4 text-white">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-industrial-300">Telefon</p>
+                                <p class="font-semibold">0312 315 00 01</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-white">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-industrial-300">E-posta</p>
+                                <p class="font-semibold">info@yakupyilmazboru.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-white">
+                            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-industrial-300">Merkez</p>
+                                <p class="font-semibold">Ostim OSB, Ankara</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-reveal bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20"
+                    style="transition-delay: 0.2s;">
+                    <h3 class="text-2xl font-bold text-white mb-6">Hızlı Mesaj Gönderin</h3>
+                    <form class="space-y-4" onsubmit="event.preventDefault(); alert('Mesajınız gönderildi!');">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Adınız"
+                                class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-industrial-300 focus:outline-none focus:border-safety transition-colors">
+                            <input type="tel" placeholder="Telefon"
+                                class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-industrial-300 focus:outline-none focus:border-safety transition-colors">
+                        </div>
+                        <input type="email" placeholder="E-posta Adresiniz"
+                            class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-industrial-300 focus:outline-none focus:border-safety transition-colors">
+                        <select
+                            class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-industrial-300 focus:outline-none focus:border-safety transition-colors">
+                            <option value="">Ürün Kategorisi Seçin</option>
+                            <option value="boru">Borular</option>
+                            <option value="profil">Profiller</option>
+                            <option value="sac">Saclar</option>
+                            <option value="hadde">Hadde Ürünleri</option>
+                        </select>
+                        <textarea rows="4" placeholder="Mesajınız..."
+                            class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-industrial-300 focus:outline-none focus:border-safety transition-colors resize-none"></textarea>
+                        <button type="submit"
+                            class="w-full py-4 bg-safety text-white font-semibold rounded-xl hover:bg-safety-dark transition-colors">Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-industrial-900 text-industrial-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div class="lg:col-span-1">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-12 h-12 bg-safety rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl font-montserrat">YY</span>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold text-lg font-montserrat">YAKUP YILMAZ</h3>
+                            <p class="text-xs tracking-widest text-industrial-400">BORU PROFİL A.Ş.</p>
+                        </div>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-6">1998'den beri Ankara'da demir çelik sektöründe kaliteli ürün
+                        ve güvenilir hizmet anlayışıyla faaliyet gösteriyoruz.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                            </svg>
+                            <span>0312 315 00 01</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span>info@yakupyilmazboru.com</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>Ostim OSB, 1234. Cad. No:56</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <svg class="w-4 h-4 text-safety" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Hafta İçi: 08:00 - 18:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Ürünlerimiz</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#urunler"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Sanayi Boruları</a></li>
+                        <li><a href="#urunler"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Kare Profiller</a></li>
+                        <li><a href="#urunler"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Dkp / Hr Sac</a></li>
+                        <li><a href="#urunler"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>NPU / NPI Hadde</a></li>
+                        <li><a href="#urunler"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Paslanmaz Çelik</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Kurumsal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#neden-biz"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Hakkımızda</a></li>
+                        <li><a href="#neden-biz"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Misyon & Vizyon</a></li>
+                        <li><a href="#neden-biz"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Sertifikalar</a></li>
+                        <li><a href="#iletisim"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Kariyer</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Müşteri Destek</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#iletisim"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Fiyat Listesi</a></li>
+                        <li><a href="#iletisim"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Teknik Bilgiler</a></li>
+                        <li><a href="#iletisim"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>Sevkiyat Bilgisi</a></li>
+                        <li><a href="#iletisim"
+                                class="text-sm hover:text-safety transition-colors flex items-center gap-2 group"><svg
+                                    class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-safety"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
+                                </svg>SSS</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="mt-16 pt-8 border-t border-industrial-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-industrial-500">&copy; 2024 Yakup Yılmaz Boru Profil A.Ş. Tüm hakları saklıdır.
+                </p>
+                <div class="flex gap-6 text-sm text-industrial-500">
+                    <a href="#" class="hover:text-safety transition-colors">Gizlilik Politikası</a>
+                    <a href="#" class="hover:text-safety transition-colors">Kullanım Koşulları</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        const logoTitle = document.getElementById('logo-title');
+        const logoSub = document.getElementById('logo-sub');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.remove('glass-nav-transparent', 'py-6');
+                navbar.classList.add('glass-nav', 'py-3');
+                logoTitle.classList.remove('text-white');
+                logoTitle.classList.add('text-industrial-900');
+                logoSub.classList.remove('text-industrial-300');
+                logoSub.classList.add('text-industrial-500');
+            } else {
+                navbar.classList.add('glass-nav-transparent', 'py-6');
+                navbar.classList.remove('glass-nav', 'py-3');
+                logoTitle.classList.add('text-white');
+                logoTitle.classList.remove('text-industrial-900');
+                logoSub.classList.add('text-industrial-300');
+                logoSub.classList.remove('text-industrial-500');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function goToSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('active');
+            indicators[currentSlide].classList.remove('w-12');
+            indicators[currentSlide].classList.add('w-6');
+
+            currentSlide = index;
+
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.remove('w-6');
+            indicators[currentSlide].classList.add('w-12');
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % totalSlides);
+        }
+
+        function prevSlide() {
+            goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+        }
+
+        document.getElementById('next-slide').addEventListener('click', nextSlide);
+        document.getElementById('prev-slide').addEventListener('click', prevSlide);
+
+        indicators.forEach((ind, i) => {
+            ind.addEventListener('click', () => goToSlide(i));
+        });
+
+        setInterval(nextSlide, 6000);
+
+        // Scroll Reveal
+        const observerOptions = {
+            root: null,
+            rootMargin: '-50px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Counter Animation
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.dataset.target);
+                    const duration = 2000;
+                    const steps = 60;
+                    const increment = target / steps;
+                    let current = 0;
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString('tr-TR');
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString('tr-TR');
+                        }
+                    }, duration / steps);
+
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+        // Product Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const productCards = document.querySelectorAll('.product-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                productCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

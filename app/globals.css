@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.glass-nav {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-nav-transparent {
+    backdrop-filter: none;
+    background: transparent;
+    border-bottom: none;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.hero-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.1);
+    transition: transform 6s ease-out;
+}
+
+.hero-slide.active img {
+    transform: scale(1);
+}
+
+.hero-content {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+.hero-slide.active .hero-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-slide.active .hc-d1 {
+    transition-delay: 0.3s;
+}
+
+.hero-slide.active .hc-d2 {
+    transition-delay: 0.5s;
+}
+
+.hero-slide.active .hc-d3 {
+    transition-delay: 0.7s;
+}
+
+.hero-slide.active .hc-d4 {
+    transition-delay: 0.9s;
+}
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.product-card {
+    transition: all 0.5s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    transition: transform 0.7s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.1);
+}
+
+.feature-card {
+    transition: all 0.5s ease;
+}
+
+.feature-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card .icon-box {
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .icon-box {
+    background: #FF5733;
+    color: white;
+}
+
+.filter-btn {
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active {
+    background: #FF5733;
+    color: white;
+    box-shadow: 0 10px 25px -5px rgba(255, 87, 51, 0.4);
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #FF5733;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.mobile-menu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.mobile-menu.open {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.indicator {
+    transition: all 0.5s ease;
+}
+
+.indicator.active {
+    width: 48px;
+    background: #FF5733;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+.animate-float {
+    animation: float 2s ease-in-out infinite;
+}
+
+.gradient-overlay {
+    background: linear-gradient(to right, rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.6), transparent);
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #FF5733, #1E3A5F);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
