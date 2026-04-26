@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import ContactInfo from "@/components/ContactInfo";
 
 export const metadata: Metadata = {
-    title: "İletişim | Yakup Yılmaz Boru Profil A.Ş.",
+    title: "İletişim | Sincan Sac Profil Demir Çelik Ltd. Şti.",
     description:
-        "Yakup Yılmaz Boru Profil A.Ş. iletişim bilgileri: telefon numaraları, e-posta, adres ve harita.",
+        "Sincan Sac Profil Demir Çelik Ltd. Şti. iletişim bilgileri: telefon numaraları, e-posta, adres ve harita.",
 };
 
 export default function IletisimPage() {

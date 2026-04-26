@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 
 export const metadata: Metadata = {
-    title: "Yakup Yılmaz Boru Profil A.Ş. | Demir Çelik ve Metal Sanayi",
+    title: "Sincan Sac Profil Demir Çelik Ltd. Şti. | Demir Çelik ve Metal Sanayi",
     description:
         "25 yılı aşkın tecrübemizle Türkiye'nin dört bir yanına kaliteli demir çelik ürünleri sunuyoruz. Boru, profil, sac ve hadde ürünleri.",
 };

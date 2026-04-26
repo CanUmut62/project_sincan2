@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         return { title: "Ürün bulunamadı" };
     }
     return {
-        title: `${product.title} | Yakup Yılmaz Boru Profil A.Ş.`,
+        title: `${product.title} | Sincan Sac Profil Demir Çelik Ltd. Şti.`,
         description: product.longDescription.slice(0, 160),
     };
 }

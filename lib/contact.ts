@@ -11,7 +11,7 @@ export type ContactPerson = {
 
 export const contactPersons: ContactPerson[] = [
   {
-    name: "Yakup Yılmaz",
+    name: "Sincan Sac Profil",
     role: "Genel Müdür",
     display: "0312 315 00 01",
     tel: "+903123150001",
@@ -27,7 +27,7 @@ export const contactPersons: ContactPerson[] = [
 ];
 
 export const contactInfo = {
-  email: "info@yakupyilmazboru.com",
+  email: "info@sincansacprofil.com",
   addressShort: "Ostim OSB, Ankara",
   addressFull: "Ostim OSB, 1234. Cad. No:56 Yenimahalle / Ankara",
   workingHours: "Hafta İçi: 08:00 - 18:00",

@@ -3,7 +3,7 @@
 const testimonials = [
     {
         quote:
-            "Yakup Yılmaz Boru Profil ile çalışmak iş süreçlerimizi ciddi ölçüde hızlandırdı. Stok her zaman hazır, teslimat zamanında ve fiyatlar gerçekten rekabetçi. Kesinlikle tavsiye ederim.",
+            "Sincan Sac Profil Demir Çelik ile çalışmak iş süreçlerimizi ciddi ölçüde hızlattı. Stok her zaman hazır, teslimat zamanında ve fiyatlar gerçekten rekabetçi. Kesinlikle tavsiye ederim.",
         name: "Ahmet Karataş",
         company: "Karataş İnşaat",
         city: "Ankara",
@@ -39,7 +39,7 @@ const testimonials = [
     },
     {
         quote:
-            "Fiyat teklifi çok hızlı geldi, ürün kalitesi de beklentinin üzerindeydi. Çelik tedarikinde artık tek adresimiz Yakup Yılmaz.",
+            "Fiyat teklifi çok hızlı geldi, ürün kalitesi de beklentinin üzerindeydi. Çelik tedarikinde artık tek adresimiz Sincan Sac Profil.",
         name: "Hasan Çelik",
         company: "Çelik Tarım Ekipmanları",
         city: "Eskişehir",

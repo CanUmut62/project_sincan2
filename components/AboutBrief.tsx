@@ -21,7 +21,7 @@ export default function AboutBrief() {
                         <span className="text-safety">25 Yıllık Güven</span>
                     </h2>
                     <p className="text-industrial-600 text-lg leading-relaxed mb-4">
-                        Yakup Yılmaz Boru Profil A.Ş., 1998 yılında Ostim Organize Sanayi Bölgesi'nde küçük bir
+                        Sincan Sac Profil Demir Çelik Ltd. Şti., 1998 yılında Ostim Organize Sanayi Bölgesi'nde küçük bir
                         depoyla başladığı yolculuğunu iki modern şubesi, geniş stok kapasitesi ve uzman kadrosuyla
                         sürdürmektedir.
                     </p>
@@ -45,7 +45,7 @@ export default function AboutBrief() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1000&q=80"
-                        alt="Çelik depo — Yakup Yılmaz Boru Profil"
+                        alt="Çelik depo — Sincan Sac Profil Demir Çelik"
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-industrial-900/80 via-transparent to-transparent" />

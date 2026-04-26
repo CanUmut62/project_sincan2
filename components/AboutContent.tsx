@@ -5,7 +5,7 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 const story = {
     title: "1998'den Bugüne Çelik Sektörünün Güvenilir Adı",
     paragraphs: [
-        "Yakup Yılmaz Boru Profil A.Ş., 1998 yılında Ankara Ostim Organize Sanayi Bölgesi'nde küçük bir depo ile başladığı yolculuğunu, bugün Ostim ve Kazan'daki iki modern şubesinde, geniş stok kapasitesi ve tecrübeli kadrosuyla sürdürmektedir.",
+        "Sincan Sac Profil Demir Çelik Ltd. Şti., 1998 yılında Ankara Ostim Organize Sanayi Bölgesi'nde küçük bir depo ile başladığı yolculuğunu, bugün Ostim ve Kazan'daki iki modern şubesinde, geniş stok kapasitesi ve tecrübeli kadrosuyla sürrdürmektedir.",
         "Demir çelik sektöründe 25 yılı aşkın deneyimimizle; sanayi boruları, kare ve dikdörtgen profiller, DKP-HR sac levhalar, NPU/NPI hadde ürünleri, paslanmaz ve galvaniz çelik ürünleri başta olmak üzere geniş bir ürün yelpazesini iş ortaklarımıza sunuyoruz.",
         "Türkiye'nin dört bir yanına ulaşan lojistik ağımız, 5000'i aşkın yıllık başarılı sevkiyatımız ve 1200'ün üzerinde sürekli müşterimizle; inşaat, makina, otomotiv, enerji ve tarım sektörlerinin güvenilir tedarik ortağı olmaya devam ediyoruz.",
     ],

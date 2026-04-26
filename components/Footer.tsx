@@ -27,11 +27,11 @@ export default function Footer() {
                     <div>
                         <div className="flex items-center gap-3 mb-5">
                             <div className="w-12 h-12 bg-safety rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-xl font-montserrat">YY</span>
+                                <span className="text-white font-bold text-xl font-montserrat">SSP</span>
                             </div>
                             <div>
-                                <h3 className="text-white font-bold font-montserrat leading-tight">YAKUP YILMAZ</h3>
-                                <p className="text-xs tracking-widest text-industrial-400">BORU PROFİL A.Ş.</p>
+                                <h3 className="text-white font-bold font-montserrat leading-tight">SİNCAN SAC PROFİL</h3>
+                                <p className="text-xs tracking-widest text-industrial-400">DEMİR ÇELİK LTD. ŞTİ.</p>
                             </div>
                         </div>
                         <p className="text-sm text-industrial-400 leading-relaxed">
@@ -98,7 +98,7 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-industrial-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-industrial-500">
-                    <p>© {year} Yakup Yılmaz Boru Profil A.Ş. Tüm hakları saklıdır.</p>
+                    <p>© {year} Sincan Sac Profil Demir Çelik Ltd. Şti. Tüm hakları saklıdır.</p>
                     <p>{contactInfo.workingHours}</p>
                 </div>
             </div>

@@ -18,7 +18,7 @@ const slides: Slide[] = [
     {
         image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1920&q=80",
         alt: "Endüstriyel Çelik Depo",
-        badge: "Yakup Yılmaz Boru Profil A.Ş.",
+        badge: "Sincan Sac Profil Demir Çelik Ltd. Şti.",
         titleLine1: "Endüstriyel Gücün",
         titleAccent: "Güvenilir Adresi",
         description:
@@ -29,7 +29,7 @@ const slides: Slide[] = [
     {
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80",
         alt: "CNC Lazer Kesim",
-        badge: "Yakup Yılmaz Boru Profil A.Ş.",
+        badge: "Sincan Sac Profil Demir Çelik Ltd. Şti.",
         titleLine1: "CNC Lazer Kesim",
         titleAccent: "Teknolojisi",
         description: "Paslanmaz çelik, alüminyum ve sac metal malzemelerde hassas kesim çözümleri.",
@@ -39,7 +39,7 @@ const slides: Slide[] = [
     {
         image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1920&q=80",
         alt: "Hızlı Sevkiyat",
-        badge: "Yakup Yılmaz Boru Profil A.Ş.",
+        badge: "Sincan Sac Profil Demir Çelik Ltd. Şti.",
         titleLine1: "Hızlı Sevkiyat",
         titleAccent: "Uygun Fiyat",
         description: "Ostim ve Kazan şubelerimizle stoktan teslimat, rekabetçi fiyat politikası.",

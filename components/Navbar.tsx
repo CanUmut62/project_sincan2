@@ -47,11 +47,11 @@ export default function Navbar() {
                 <div className="flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-12 h-12 bg-deep rounded-lg flex items-center justify-center overflow-hidden group-hover:bg-safety transition-colors duration-300">
-                            <span className="text-white font-bold text-xl font-montserrat">YY</span>
+                            <span className="text-white font-bold text-xl font-montserrat">SSP</span>
                         </div>
                         <div className="hidden sm:block">
-                            <h1 className={titleClasses}>YAKUP YILMAZ</h1>
-                            <p className={subClasses}>BORU PROFİL A.Ş.</p>
+                            <h1 className={titleClasses}>SİNCAN SAC PROFİL</h1>
+                            <p className={subClasses}>DEMİR ÇELİK LTD. ŞTİ.</p>
                         </div>
                     </Link>
 
