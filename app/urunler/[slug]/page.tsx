@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, products, categories } from "@/lib/products";
+import ProductDetailContactButton from "@/components/ProductDetailContactButton";
 
 type Params = { slug: string };
 type PageProps = { params: Promise<Params> };
@@ -68,15 +69,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
                             {product.longDescription}
                         </p>
                         <div className="flex flex-wrap gap-3">
-                            <Link
-                                href="/iletisim"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-safety text-white font-semibold rounded-lg hover:bg-safety-dark transition-colors"
-                            >
-                                Teklif Al
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </Link>
+                            <ProductDetailContactButton />
                             <Link
                                 href="/urunler"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-industrial-800 font-semibold rounded-lg border border-industrial-200 hover:border-safety hover:text-safety transition-colors"

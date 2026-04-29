@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import ContactModal from "@/components/ContactModal";
 
 export default function CtaBanner() {
+    const [contactModalOpen, setContactModalOpen] = useState(false);
+
     return (
         <section className="relative bg-deep overflow-hidden">
             {/* dekoratif arka plan deseni */}
@@ -30,15 +36,16 @@ export default function CtaBanner() {
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 flex-shrink-0">
-                        <Link
-                            href="/iletisim"
+                        <button
+                            type="button"
+                            onClick={() => setContactModalOpen(true)}
                             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-safety text-white font-semibold rounded-xl hover:bg-safety-dark transition-colors text-base shadow-lg shadow-safety/20"
                         >
                             Teklif Al
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
-                        </Link>
+                        </button>
                         <Link
                             href="/urunler"
                             className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors text-base border border-white/20"
@@ -48,6 +55,7 @@ export default function CtaBanner() {
                     </div>
                 </div>
             </div>
+            <ContactModal isOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} />
         </section>
     );
 }
