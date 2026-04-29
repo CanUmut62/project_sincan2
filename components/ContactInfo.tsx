@@ -1,6 +1,11 @@
-import { contactInfo, contactPersons } from "@/lib/contact";
+import type { ContactInfo as ContactInfoType, ContactPerson } from "@/lib/contact-schema";
 
-export default function ContactInfo() {
+type ContactInfoProps = {
+    contactInfo: ContactInfoType;
+    contactPersons: ContactPerson[];
+};
+
+export default function ContactInfo({ contactInfo, contactPersons }: ContactInfoProps) {
     return (
         <section id="iletisim" className="relative py-24 overflow-hidden bg-industrial-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

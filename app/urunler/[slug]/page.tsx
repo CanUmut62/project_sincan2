@@ -1,31 +1,37 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, products, categories } from "@/lib/products";
+import { getProductBySlug, getProducts } from "@/lib/products";
+import { categories } from "@/lib/products-schema";
 import ProductDetailContactButton from "@/components/ProductDetailContactButton";
+import { getSiteUrl } from "@/lib/site";
 
 type Params = { slug: string };
 type PageProps = { params: Promise<Params> };
 
-export function generateStaticParams(): Params[] {
+export async function generateStaticParams(): Promise<Params[]> {
+    const products = await getProducts();
     return products.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
-    const product = getProductBySlug(slug);
+    const product = await getProductBySlug(slug);
     if (!product) {
         return { title: "Ürün bulunamadı" };
     }
     return {
-        title: `${product.title} | Sincan Sac Profil Demir Çelik Ltd. Şti.`,
-        description: product.longDescription.slice(0, 160),
+        title: product.seoTitle || `${product.title} | Sincan Sac Profil Demir Çelik Ltd. Şti.`,
+        description: product.seoDescription || product.longDescription.slice(0, 160),
+        alternates: {
+            canonical: `${getSiteUrl()}/urunler/${product.slug}`,
+        },
     };
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
     const { slug } = await params;
-    const product = getProductBySlug(slug);
+    const product = await getProductBySlug(slug);
     if (!product) notFound();
 
     const categoryLabel =

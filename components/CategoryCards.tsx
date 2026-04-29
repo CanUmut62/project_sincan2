@@ -1,4 +1,4 @@
-import { categories } from "@/lib/products";
+import { categories } from "@/lib/products-schema";
 import Link from "next/link";
 
 export default function CategoryCards() {

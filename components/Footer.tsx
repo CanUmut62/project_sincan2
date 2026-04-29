@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { contactInfo, contactPersons } from "@/lib/contact";
+import { getContactSettings } from "@/lib/contact";
 
 const corporateLinks = [
     { href: "/", label: "Ana Sayfa" },
@@ -17,7 +17,8 @@ const productLinks = [
     { href: "/urunler/galvaniz-profiller", label: "Galvaniz Profiller" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+    const { contactInfo, contactPersons } = await getContactSettings();
     const year = new Date().getFullYear();
     return (
         <footer className="bg-industrial-900 text-industrial-200 pt-16 pb-6">

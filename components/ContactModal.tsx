@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { contactInfo, contactPersons } from "@/lib/contact";
+import { useEffect, useState } from "react";
+import { defaultContactSettings, type ContactInfo, type ContactPerson } from "@/lib/contact-schema";
 
 type ContactModalProps = {
     isOpen: boolean;
@@ -9,6 +9,23 @@ type ContactModalProps = {
 };
 
 export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
+    const [contactInfo, setContactInfo] = useState<ContactInfo>(defaultContactSettings.contactInfo);
+    const [contactPersons, setContactPersons] = useState<ContactPerson[]>(defaultContactSettings.contactPersons);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        async function load() {
+            const res = await fetch("/api/contact", { cache: "no-store" });
+            if (!res.ok) return;
+            const data = (await res.json()) as { contactInfo: ContactInfo; contactPersons: ContactPerson[] };
+            if (data.contactInfo && Array.isArray(data.contactPersons)) {
+                setContactInfo(data.contactInfo);
+                setContactPersons(data.contactPersons);
+            }
+        }
+        void load();
+    }, [isOpen]);
+
     useEffect(() => {
         if (!isOpen) return;
 

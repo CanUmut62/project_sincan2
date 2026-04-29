@@ -1,13 +1,26 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { contactPersons } from "@/lib/contact";
+import { defaultContactSettings, type ContactPerson } from "@/lib/contact-schema";
 
 type Mode = "phone" | "whatsapp";
 
 export default function FloatingButtons() {
+  const [contactPersons, setContactPersons] = useState<ContactPerson[]>(defaultContactSettings.contactPersons);
   const [mode, setMode] = useState<Mode | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    async function load() {
+      const res = await fetch("/api/contact", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = (await res.json()) as { contactPersons: ContactPerson[] };
+      if (Array.isArray(data.contactPersons) && data.contactPersons.length) {
+        setContactPersons(data.contactPersons);
+      }
+    }
+    void load();
+  }, []);
 
   // Dış tıklama / Esc ile kapat
   useEffect(() => {

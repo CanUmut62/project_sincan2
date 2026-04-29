@@ -1,26 +1,30 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import ContactInfo from "@/components/ContactInfo";
 import { getContactSettings } from "@/lib/contact";
-import { redirect } from "next/navigation";
-import { getSiteUrl } from "@/lib/site";
 
-export async function generateMetadata(): Promise<Metadata> {
+type PageProps = {
+    params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug } = await params;
     const settings = await getContactSettings();
+    if (slug !== settings.pageSeo.slug || slug === "iletisim") {
+        return {};
+    }
     return {
         title: settings.pageSeo.title,
         description: settings.pageSeo.description,
-        alternates: {
-            canonical: settings.pageSeo.slug === "iletisim"
-                ? `${getSiteUrl()}/iletisim`
-                : `${getSiteUrl()}/${settings.pageSeo.slug}`,
-        },
     };
 }
 
-export default async function IletisimPage() {
+export default async function ContactSlugPage({ params }: PageProps) {
+    const { slug } = await params;
     const settings = await getContactSettings();
-    if (settings.pageSeo.slug && settings.pageSeo.slug !== "iletisim") {
-        redirect(`/${settings.pageSeo.slug}`);
+
+    if (slug !== settings.pageSeo.slug || slug === "iletisim") {
+        notFound();
     }
 
     return (

@@ -1,246 +1,64 @@
-export type ProductCategory = "borular" | "profiller" | "saclar" | "hadde";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { categories, defaultProducts, type Product, type ProductCategory, type ProductSpec } from "@/lib/products-schema";
+import { sanitizeSlug } from "@/lib/seo-rules";
 
-export type ProductSpec = {
-  label: string;
-  value: string;
-};
+const dataDir = path.join(process.cwd(), "data");
+const productsPath = path.join(dataDir, "products.json");
+const allowedCategories: ProductCategory[] = ["borular", "profiller", "saclar", "hadde"];
 
-export type Product = {
-  slug: string;
-  category: ProductCategory;
-  badge: string;
-  image: string;
-  alt: string;
-  title: string;
-  description: string;
-  /** Kart üzerinde görünen kısa madde listesi */
-  bullets: string[];
-  /** Detay sayfasında kullanılan uzun açıklama */
-  longDescription: string;
-  /** Detay sayfası için teknik özellikler tablosu */
-  specs: ProductSpec[];
-  /** Detay sayfası için kullanım alanları */
-  usage: string[];
-  /** Kart animasyonu için opsiyonel CSS gecikmesi */
-  delay?: string;
-};
-
-export type CategoryInfo = {
-  key: ProductCategory;
-  label: string;
-  short: string;
-  description: string;
-  image: string;
-};
-
-export const categories: CategoryInfo[] = [
-  {
-    key: "borular",
-    label: "Borular",
-    short: "Sanayi & Paslanmaz",
-    description:
-      "Doğalgaz, su, yapısal ve gıda uygulamaları için siyah, galvaniz ve paslanmaz çelik borular.",
-    image:
-      "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80",
-  },
-  {
-    key: "profiller",
-    label: "Profiller",
-    short: "Kare, Dikdörtgen, Galvaniz",
-    description:
-      "Makina sanayi, inşaat ve dış cephe için kare/dikdörtgen kesit ve galvaniz kaplı profiller.",
-    image:
-      "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800&q=80",
-  },
-  {
-    key: "saclar",
-    label: "Saclar",
-    short: "DKP & HR",
-    description:
-      "Soğuk haddelenmiş (DKP) ve sıcak haddelenmiş (HR) sac levhalar, rulo ve kesilmiş ölçülerde.",
-    image:
-      "https://images.unsplash.com/photo-1535191030489-d98db0243e1a?w=800&q=80",
-  },
-  {
-    key: "hadde",
-    label: "Hadde Ürünleri",
-    short: "NPU / NPI / HEA",
-    description:
-      "Standart ve özel kesitli hadde profilleri, lama ve köşebent çeşitleri.",
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
-  },
-];
-
-export const products: Product[] = [
-  {
-    slug: "sanayi-borulari",
-    category: "borular",
-    badge: "Borular",
-    image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=600&q=80",
-    alt: "Sanayi Boruları",
-    title: "Sanayi Boruları",
-    description: "Doğalgaz, su ve yapısal uygulamalar için çelik borular",
-    bullets: ["DN15 - DN200", "Siyah / Galvaniz", "St37 / St52"],
-    longDescription:
-      "Sanayi boruları; doğalgaz tesisatı, su iletimi, sulama hatları, ısıtma sistemleri ve yapısal konstrüksiyon uygulamalarında tercih edilen, dikişli ve dikişsiz olarak üretilen çelik borulardır. Stoklarımızda siyah ve galvaniz kaplı seçenekler mevcuttur.",
-    specs: [
-      { label: "Çap Aralığı", value: "DN15 - DN200" },
-      { label: "Et Kalınlığı", value: "1.5 mm - 8 mm" },
-      { label: "Standart Boy", value: "6 m / 12 m" },
-      { label: "Malzeme Kalitesi", value: "St37 / St52 / S235JR" },
-      { label: "Yüzey", value: "Siyah / Sıcak Daldırma Galvaniz" },
-      { label: "Üretim Standardı", value: "EN 10219 / EN 10255" },
-    ],
-    usage: [
-      "Doğalgaz ve su tesisatı",
-      "Yangın söndürme hatları",
-      "Sulama ve drenaj sistemleri",
-      "Yapısal konstrüksiyon",
-      "Endüstriyel tesisat hatları",
-    ],
-  },
-  {
-    slug: "kare-dikdortgen-profiller",
-    category: "profiller",
-    badge: "Profiller",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80",
-    alt: "Kare ve Dikdörtgen Profiller",
-    title: "Kare ve Dikdörtgen Profiller",
-    description: "Makina sanayi ve inşaat sektörü için kesit profiller",
-    bullets: ["10x10 - 400x400", "S235JR / S275JR", "6m - 12m Boy"],
-    delay: "0.1s",
-    longDescription:
-      "Kare ve dikdörtgen kesitli profiller; çelik konstrüksiyon, makina imalatı, mobilya, otomotiv ve tarım sanayinde yaygın olarak kullanılır. Geniş ölçü ve et kalınlığı yelpazesiyle stoktan teslim imkanı sunuyoruz.",
-    specs: [
-      { label: "Kare Ölçü", value: "10x10 mm - 400x400 mm" },
-      { label: "Dikdörtgen Ölçü", value: "20x10 mm - 400x300 mm" },
-      { label: "Et Kalınlığı", value: "1 mm - 12 mm" },
-      { label: "Standart Boy", value: "6 m / 12 m" },
-      { label: "Kalite", value: "S235JR / S275JR / S355JR" },
-      { label: "Üretim Standardı", value: "EN 10219" },
-    ],
-    usage: [
-      "Çelik konstrüksiyon ve çatı sistemleri",
-      "Makina ve şase imalatı",
-      "Mobilya ve raf sistemleri",
-      "Tarım ekipmanları (sera, ahır)",
-      "Korkuluk ve çit uygulamaları",
-    ],
-  },
-  {
-    slug: "dkp-hr-sac",
-    category: "saclar",
-    badge: "Saclar",
-    image: "https://images.unsplash.com/photo-1535191030489-d98db0243e1a?w=600&q=80",
-    alt: "Dkp Sac ve Hr Sac",
-    title: "DKP Sac ve HR Sac",
-    description: "Soğuk haddelenmiş ve sıcak haddelenmiş sac levhalar",
-    bullets: ["0.5mm - 20mm", "1000mm - 2000mm Genişlik", "Rulo / Levha"],
-    delay: "0.2s",
-    longDescription:
-      "DKP (soğuk haddelenmiş) ve HR (sıcak haddelenmiş) sac ürünleri; otomotiv, beyaz eşya, makina, mobilya ve sanayi tesislerinde geniş kullanım alanına sahiptir. Rulo, levha ve istenen ölçüde kesilmiş olarak temin edilebilir.",
-    specs: [
-      { label: "Kalınlık (DKP)", value: "0.5 mm - 3 mm" },
-      { label: "Kalınlık (HR)", value: "1.5 mm - 20 mm" },
-      { label: "Genişlik", value: "1000 mm / 1250 mm / 1500 mm / 2000 mm" },
-      { label: "Boy", value: "2000 mm / 3000 mm / 6000 mm" },
-      { label: "Form", value: "Rulo / Levha / Kesim" },
-      { label: "Kalite", value: "DC01 / S235JR / S355JR" },
-    ],
-    usage: [
-      "Otomotiv yan sanayi",
-      "Beyaz eşya gövde imalatı",
-      "Sanayi ekipmanları ve panolar",
-      "Mobilya ve raf sistemleri",
-      "Genel metal işleme",
-    ],
-  },
-  {
-    slug: "npu-npi-profiller",
-    category: "hadde",
-    badge: "Hadde",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80",
-    alt: "NPU / NPI Profiller",
-    title: "NPU / NPI Profiller",
-    description: "Standart ve özel kesitli hadde ürünleri",
-    bullets: ["NPU 80 - NPU 400", "HEA / HEB / HEM", "Lama ve Köşebent"],
-    longDescription:
-      "Sıcak haddelenmiş NPU, NPI, HEA, HEB, HEM profiller ile lama ve köşebent çeşitlerimiz; ağır çelik konstrüksiyon, köprü ve endüstriyel yapı uygulamalarında tercih edilir.",
-    specs: [
-      { label: "NPU", value: "NPU 80 - NPU 400" },
-      { label: "NPI", value: "NPI 80 - NPI 400" },
-      { label: "HEA / HEB / HEM", value: "100 - 400" },
-      { label: "Lama", value: "20x3 - 200x20" },
-      { label: "Köşebent", value: "20x20 - 150x150" },
-      { label: "Kalite", value: "S235JR / S275JR" },
-    ],
-    usage: [
-      "Ağır çelik konstrüksiyon",
-      "Köprü ve viyadük yapımı",
-      "Endüstriyel bina taşıyıcı sistemleri",
-      "Vinç rayları ve şase imalatı",
-      "Gemi ve liman yapıları",
-    ],
-  },
-  {
-    slug: "paslanmaz-borular",
-    category: "borular",
-    badge: "Borular",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80",
-    alt: "Paslanmaz Borular",
-    title: "Paslanmaz Borular",
-    description: "304 ve 316 kalite paslanmaz çelik borular",
-    bullets: ["AISI 304 / 316", "Mat / Parlak Yüzey", "Gıda ve Kimya"],
-    delay: "0.1s",
-    longDescription:
-      "AISI 304 ve 316 kalite paslanmaz çelik borularımız; gıda, ilaç, kimya ve dekoratif uygulamalarda korozyon direnci ve hijyenik yüzey gereksinimlerini karşılar.",
-    specs: [
-      { label: "Kalite", value: "AISI 304 / 304L / 316 / 316L" },
-      { label: "Çap", value: "Ø10 mm - Ø168 mm" },
-      { label: "Et Kalınlığı", value: "1 mm - 4 mm" },
-      { label: "Yüzey", value: "Mat / Parlak / Saten" },
-      { label: "Standart Boy", value: "6 m" },
-      { label: "Üretim", value: "EN 10217-7" },
-    ],
-    usage: [
-      "Gıda işleme tesisleri",
-      "Süt ve içecek üretim hatları",
-      "İlaç ve kimya sanayi",
-      "Mutfak ve dekoratif uygulamalar",
-      "Korozif ortam tesisat hatları",
-    ],
-  },
-  {
-    slug: "galvaniz-profiller",
-    category: "profiller",
-    badge: "Profiller",
-    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&q=80",
-    alt: "Galvaniz Profiller",
-    title: "Galvaniz Profiller",
-    description: "Yüksek korozyon direnci galvaniz kaplı profiller",
-    bullets: ["GI Profiller", "Z275 Kaplama", "Dış Cephe ve Konstrüksiyon"],
-    delay: "0.2s",
-    longDescription:
-      "Sıcak daldırma galvaniz kaplamalı profiller; nem ve atmosferik koşullara karşı uzun ömürlü koruma sağlar. Dış cephe, çatı, sera ve solar konstrüksiyon uygulamalarında tercih edilir.",
-    specs: [
-      { label: "Kesit", value: "Kare / Dikdörtgen" },
-      { label: "Ölçü", value: "20x20 - 300x300" },
-      { label: "Et Kalınlığı", value: "1 mm - 6 mm" },
-      { label: "Kaplama", value: "Z275 (275 g/m²) Sıcak Daldırma" },
-      { label: "Standart Boy", value: "6 m / 12 m" },
-      { label: "Kalite", value: "S235JR" },
-    ],
-    usage: [
-      "Solar enerji konstrüksiyonu",
-      "Sera ve tarımsal yapılar",
-      "Dış cephe ve çatı sistemleri",
-      "Çit ve bariyer uygulamaları",
-      "Trafik ve yol ekipmanları",
-    ],
-  },
-];
-
-export function getProductBySlug(slug: string): Product | undefined {
-  return products.find((p) => p.slug === slug);
+function sanitizeSpec(spec: Partial<ProductSpec>): ProductSpec {
+    return {
+        label: String(spec.label ?? "").trim(),
+        value: String(spec.value ?? "").trim(),
+    };
 }
+
+function sanitizeProduct(product: Partial<Product>): Product {
+    const category = String(product.category ?? "borular") as ProductCategory;
+    return {
+        slug: sanitizeSlug(String(product.slug ?? "")),
+        seoTitle: product.seoTitle ? String(product.seoTitle).trim() : undefined,
+        seoDescription: product.seoDescription ? String(product.seoDescription).trim() : undefined,
+        category: allowedCategories.includes(category) ? category : "borular",
+        badge: String(product.badge ?? "").trim(),
+        image: String(product.image ?? "").trim(),
+        alt: String(product.alt ?? "").trim(),
+        title: String(product.title ?? "").trim(),
+        description: String(product.description ?? "").trim(),
+        bullets: Array.isArray(product.bullets) ? product.bullets.map((b) => String(b).trim()).filter(Boolean) : [],
+        longDescription: String(product.longDescription ?? "").trim(),
+        specs: Array.isArray(product.specs) ? product.specs.map((s) => sanitizeSpec(s ?? {})).filter((s) => s.label && s.value) : [],
+        usage: Array.isArray(product.usage) ? product.usage.map((u) => String(u).trim()).filter(Boolean) : [],
+        delay: product.delay ? String(product.delay).trim() : undefined,
+    };
+}
+
+export function normalizeProducts(data: unknown): Product[] {
+    if (!Array.isArray(data)) return defaultProducts;
+    const normalized = data.map((p) => sanitizeProduct((p ?? {}) as Partial<Product>));
+    const valid = normalized.filter((p) => p.slug && p.title && p.image);
+    return valid.length ? valid : defaultProducts;
+}
+
+export async function getProducts(): Promise<Product[]> {
+    try {
+        const raw = await readFile(productsPath, "utf8");
+        return normalizeProducts(JSON.parse(raw));
+    } catch {
+        return defaultProducts;
+    }
+}
+
+export async function saveProducts(products: Product[]) {
+    await mkdir(dataDir, { recursive: true });
+    await writeFile(productsPath, JSON.stringify(products, null, 2), "utf8");
+}
+
+export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+    const allProducts = await getProducts();
+    return allProducts.find((p) => p.slug === slug);
+}
+
+export { categories, defaultProducts };
+export type { Product, ProductCategory, ProductSpec };

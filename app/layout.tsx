@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
         "25 yılı aşkın tecrübemizle Türkiye'nin dört bir yanına kaliteli demir çelik ürünleri sunuyoruz. Boru, profil, sac ve hadde ürünleri.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+    const headerStore = await headers();
+    const isAdminLayout = headerStore.get("x-admin-layout") === "1";
+
     return (
         <html lang="tr">
             <head>
@@ -20,10 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 />
             </head>
             <body className="bg-industrial-50 text-industrial-800 antialiased">
-                <Navbar />
+                {!isAdminLayout ? <Navbar /> : null}
                 {children}
-                <FloatingButtons />
-                <Footer />
+                {!isAdminLayout ? <FloatingButtons /> : null}
+                {!isAdminLayout ? <Footer /> : null}
             </body>
         </html>
     );

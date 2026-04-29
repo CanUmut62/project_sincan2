@@ -1,4 +1,5 @@
 import HeroSlider from "@/components/HeroSlider";
+import { getHeroSlides } from "@/lib/hero-slides";
 import StatsCounter from "@/components/StatsCounter";
 import CategoryCards from "@/components/CategoryCards";
 import WhyUs from "@/components/WhyUs";
@@ -10,10 +11,12 @@ import ClientLogos from "@/components/ClientLogos";
 import Testimonials from "@/components/Testimonials";
 import Faq from "@/components/Faq";
 
-export default function HomePage() {
+export default async function HomePage() {
+    const heroSlides = await getHeroSlides();
+
     return (
         <main>
-            <HeroSlider />
+            <HeroSlider slides={heroSlides} />
             <StatsCounter />
             <CategoryCards />
             <WhyUs />

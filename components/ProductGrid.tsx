@@ -3,16 +3,19 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { categories, products, type ProductCategory } from "@/lib/products";
+import { categories, type Product, type ProductCategory } from "@/lib/products-schema";
 
 type Filter = "all" | ProductCategory;
+type ProductGridProps = {
+    products: Product[];
+};
 
 const filters: { key: Filter; label: string }[] = [
     { key: "all", label: "Tümü" },
     ...categories.map((c) => ({ key: c.key, label: c.label })),
 ];
 
-export default function ProductGrid() {
+export default function ProductGrid({ products }: ProductGridProps) {
     const [active, setActive] = useState<Filter>("all");
     const visible = products.filter((p) => active === "all" || p.category === active);
     useScrollReveal([active, visible.length]);
