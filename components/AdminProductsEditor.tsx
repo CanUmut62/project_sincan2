@@ -212,9 +212,8 @@ export default function AdminProductsEditor() {
                                 key={`${product.refCode ?? index}-${index}`}
                                 type="button"
                                 onClick={() => setSelectedIndex(index)}
-                                className={`w-full text-left rounded-lg px-3 py-2.5 transition-colors ${
-                                    active ? "bg-safety text-white" : "bg-industrial-50 text-industrial-800 hover:bg-industrial-100"
-                                }`}
+                                className={`w-full text-left rounded-lg px-3 py-2.5 transition-colors ${active ? "bg-safety text-white" : "bg-industrial-50 text-industrial-800 hover:bg-industrial-100"
+                                    }`}
                             >
                                 <p className="text-sm font-semibold">{product.refCode ?? `Ürün ${index + 1}`}</p>
                                 <p className={`text-xs truncate ${active ? "text-white/90" : "text-industrial-500"}`}>
@@ -333,11 +332,10 @@ export default function AdminProductsEditor() {
                                     placeholder="Görsel URL"
                                     className="rounded-lg border border-industrial-200 px-3 py-2"
                                 />
-                                <label className={`inline-flex items-center justify-center px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                                    selectedProduct.slug
+                                <label className={`inline-flex items-center justify-center px-3 py-2 rounded-lg transition-colors cursor-pointer ${selectedProduct.slug
                                         ? "bg-industrial-100 text-industrial-800 hover:bg-industrial-200"
                                         : "bg-industrial-50 text-industrial-300 cursor-not-allowed"
-                                }`}>
+                                    }`}>
                                     Yükle (WebP)
                                     <input
                                         type="file"
