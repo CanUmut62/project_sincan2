@@ -32,8 +32,8 @@ const config: Config = {
                 },
             },
             fontFamily: {
-                sans: ["Inter", "system-ui", "sans-serif"],
-                montserrat: ["Montserrat", "system-ui", "sans-serif"],
+                sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+                montserrat: ["var(--font-montserrat)", "Montserrat", "system-ui", "sans-serif"],
             },
         },
     },

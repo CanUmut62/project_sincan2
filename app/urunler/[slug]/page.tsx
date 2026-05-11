@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getProductBySlug, getProducts } from "@/lib/products";
 import { categories } from "@/lib/products-schema";
@@ -54,11 +55,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <section className="bg-white px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
                 <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
                     <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-industrial-100">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src={product.image.replace("w=600", "w=1200")}
+                        <Image
+                            src={product.image}
                             alt={product.alt}
-                            className="w-full h-full object-cover"
+                            fill
+                            priority
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover"
                         />
                         <span className="absolute top-5 left-5 px-3 py-1 bg-safety text-white text-xs font-semibold rounded-full">
                             {categoryLabel}

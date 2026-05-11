@@ -5,8 +5,16 @@ export type ProductSpec = {
     value: string;
 };
 
+export const CATEGORY_PREFIXES: Record<ProductCategory, string> = {
+    borular: "BOR",
+    profiller: "PRF",
+    saclar: "SAC",
+    hadde: "HAD",
+};
+
 export type Product = {
     slug: string;
+    refCode?: string;
     seoTitle?: string;
     seoDescription?: string;
     category: ProductCategory;

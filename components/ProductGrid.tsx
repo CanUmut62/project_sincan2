@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { categories, type Product, type ProductCategory } from "@/lib/products-schema";
@@ -59,11 +60,12 @@ export default function ProductGrid({ products }: ProductGridProps) {
                             style={p.delay ? { transitionDelay: p.delay } : undefined}
                         >
                             <Link href={`/urunler/${p.slug}`} className="relative h-60 overflow-hidden block">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
+                                <Image
                                     src={p.image}
                                     alt={p.alt}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-industrial-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <span className="absolute top-4 left-4 px-3 py-1 bg-safety text-white text-xs font-semibold rounded-full">

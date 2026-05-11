@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-route-auth";
-import { getProducts, normalizeProducts, saveProducts } from "@/lib/products";
+import { generateRefCode, generateSlugFromProduct, getProducts, normalizeProducts, saveProducts } from "@/lib/products";
 import { RESERVED_SLUGS } from "@/lib/seo-rules";
 
 export async function GET() {
@@ -24,8 +24,21 @@ export async function PUT(req: Request) {
     }
 
     const products = normalizeProducts(payload.products ?? []);
+
+    // Auto-assign refCode and slug for products that don't have them yet
+    const assigned = products.map((product, idx) => {
+        const precedingProducts = products.slice(0, idx);
+        if (!product.refCode) {
+            const refCode = generateRefCode(product.category, precedingProducts);
+            const slug = generateSlugFromProduct(product.title, refCode);
+            return { ...product, refCode, slug };
+        }
+        return product;
+    });
+
     const slugSet = new Set<string>();
-    for (const product of products) {
+    const refCodeSet = new Set<string>();
+    for (const product of assigned) {
         if (!product.slug) {
             return NextResponse.json({ message: "Ürün slug zorunludur." }, { status: 400 });
         }
@@ -35,9 +48,13 @@ export async function PUT(req: Request) {
         if (slugSet.has(product.slug)) {
             return NextResponse.json({ message: `Tekrarlı slug: ${product.slug}` }, { status: 400 });
         }
+        if (product.refCode && refCodeSet.has(product.refCode)) {
+            return NextResponse.json({ message: `Tekrarlı referans kodu: ${product.refCode}` }, { status: 400 });
+        }
         slugSet.add(product.slug);
+        if (product.refCode) refCodeSet.add(product.refCode);
     }
 
-    await saveProducts(products);
-    return NextResponse.json({ ok: true, products });
+    await saveProducts(assigned);
+    return NextResponse.json({ ok: true, products: assigned });
 }

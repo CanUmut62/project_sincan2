@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { defaultHeroSlides, type HeroSlide } from "@/lib/hero-slides-schema";
 
@@ -26,8 +27,14 @@ export default function HeroSlider({ slides = defaultHeroSlides }: HeroSliderPro
             <div className="relative w-full h-full">
                 {slides.map((slide, i) => (
                     <div key={slide.image} className={`hero-slide ${i === current ? "active" : ""}`}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={slide.image} alt={slide.alt} />
+                        <Image
+                            src={slide.image}
+                            alt={slide.alt}
+                            fill
+                            priority={i === 0}
+                            sizes="100vw"
+                            className="object-cover"
+                        />
                         <div className="absolute inset-0 gradient-overlay"></div>
                         <div className="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
                             <div className="max-w-4xl">
