@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { defaultContactSettings, type ContactPerson } from "@/lib/contact-schema";
 
 type Mode = "phone" | "whatsapp";
@@ -9,6 +9,7 @@ export default function FloatingButtons() {
   const [contactPersons, setContactPersons] = useState<ContactPerson[]>(defaultContactSettings.contactPersons);
   const [mode, setMode] = useState<Mode | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const scrollArrowGradId = `scroll-arrow-grad-${useId().replace(/[^a-zA-Z0-9_-]/g, "") || "g"}`;
 
   useEffect(() => {
     async function load() {
@@ -42,6 +43,10 @@ export default function FloatingButtons() {
   }, [mode]);
 
   const toggle = (next: Mode) => setMode((curr) => (curr === next ? null : next));
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="fixed right-4 md:right-6 bottom-6 z-50 flex flex-col items-end gap-3">
@@ -98,6 +103,39 @@ export default function FloatingButtons() {
           </ul>
         </div>
       )}
+
+      <button
+        type="button"
+        aria-label="Sayfanın başına git"
+        onClick={scrollToTop}
+        className="p-2 bg-transparent border-0 shadow-none focus:outline-none focus-visible:ring-2 focus-visible:ring-safety/50 focus-visible:ring-offset-2 rounded-lg transition-transform duration-200 hover:scale-110 active:scale-95"
+      >
+        <span className="floating-scroll-arrow" aria-hidden>
+          <svg className="w-8 h-8 md:w-9 md:h-9 overflow-visible" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient
+                id={scrollArrowGradId}
+                x1="4"
+                y1="20"
+                x2="20"
+                y2="4"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#1E3A5F" />
+                <stop offset="0.45" stopColor="#FF5733" />
+                <stop offset="1" stopColor="#FF5733" />
+              </linearGradient>
+            </defs>
+            <path
+              stroke={`url(#${scrollArrowGradId})`}
+              strokeWidth={2.35}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5 15l7-7 7 7"
+            />
+          </svg>
+        </span>
+      </button>
 
       <button
         type="button"

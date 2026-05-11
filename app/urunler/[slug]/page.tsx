@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, getProducts } from "@/lib/products";
-import { categories } from "@/lib/products-schema";
+import { getCategories, getCategoryLabel } from "@/lib/categories";
+import { getProducts } from "@/lib/products";
 import ProductDetailContactButton from "@/components/ProductDetailContactButton";
 import { getSiteUrl } from "@/lib/site";
 
@@ -16,7 +16,7 @@ export async function generateStaticParams(): Promise<Params[]> {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
-    const product = await getProductBySlug(slug);
+    const product = (await getProducts()).find((p) => p.slug === slug);
     if (!product) {
         return { title: "Ürün bulunamadı" };
     }
@@ -31,11 +31,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
     const { slug } = await params;
-    const product = await getProductBySlug(slug);
+    const allProducts = await getProducts();
+    const product = allProducts.find((p) => p.slug === slug);
     if (!product) notFound();
 
-    const categoryLabel =
-        categories.find((c) => c.key === product.category)?.label ?? product.badge;
+    const categories = await getCategories();
+    const categoryLabel = categories.find((c) => c.key === product.category)?.label ?? product.badge;
+    const relatedProducts = allProducts.filter((p) => p.category === product.category && p.slug !== product.slug);
 
     return (
         <main className="pt-24">
@@ -71,9 +73,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         <h1 className="text-4xl md:text-5xl font-bold text-industrial-900 font-montserrat mb-6">
                             {product.title}
                         </h1>
-                        <p className="text-industrial-600 text-lg leading-relaxed mb-8">
-                            {product.longDescription}
-                        </p>
+                        {product.description ? (
+                            <p className="text-industrial-600 text-lg leading-relaxed mb-8">{product.description}</p>
+                        ) : null}
                         <div className="flex flex-wrap gap-3">
                             <ProductDetailContactButton />
                             <Link
@@ -87,34 +89,22 @@ export default async function ProductDetailPage({ params }: PageProps) {
                 </div>
             </section>
 
-            {/* Specs */}
-            <section className="bg-industrial-50 px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-                <div className="max-w-5xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-industrial-900 font-montserrat mb-3">
-                        Teknik Özellikler
-                    </h2>
-                    <p className="text-industrial-500 mb-10">
-                        Ürün ebatları, kalite sınıfı ve standart bilgileri.
-                    </p>
-                    <div className="bg-white rounded-2xl border border-industrial-100 overflow-hidden">
-                        <dl className="divide-y divide-industrial-100">
-                            {product.specs.map((s) => (
-                                <div
-                                    key={s.label}
-                                    className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 px-6 py-4"
-                                >
-                                    <dt className="text-sm font-semibold text-industrial-500 tracking-wide uppercase">
-                                        {s.label}
-                                    </dt>
-                                    <dd className="sm:col-span-2 text-industrial-900 font-medium">
-                                        {s.value}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
+            {/* Açıklama */}
+            {product.longDescription.trim() ? (
+                <section className="bg-industrial-50 px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+                    <div className="max-w-5xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold text-industrial-900 font-montserrat mb-3">
+                            Açıklama
+                        </h2>
+                        <p className="text-industrial-500 mb-10">Ürün hakkında detaylı bilgi.</p>
+                        <div className="bg-white rounded-2xl border border-industrial-100 px-6 sm:px-10 py-8 sm:py-10">
+                            <p className="text-industrial-700 text-lg leading-relaxed whitespace-pre-line">
+                                {product.longDescription}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            ) : null}
 
             {/* Usage */}
             <section className="bg-white px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -138,6 +128,77 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     </ul>
                 </div>
             </section>
+
+            {relatedProducts.length > 0 ? (
+                <section className="bg-industrial-50 px-4 sm:px-6 lg:px-8 py-16 lg:py-20 border-t border-industrial-100">
+                    <div className="max-w-7xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold text-industrial-900 font-montserrat mb-3">
+                            İlgili Ürünlerimiz
+                        </h2>
+                        <p className="text-industrial-500 mb-10 max-w-2xl">
+                            Aynı kategorideki diğer ürünlerimize göz atın.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {relatedProducts.map((p) => {
+                                const badge = p.badge.trim() || getCategoryLabel(p.category, categories);
+                                return (
+                                    <article
+                                        key={p.slug}
+                                        className="bg-white rounded-2xl overflow-hidden border border-industrial-100 group flex flex-col"
+                                    >
+                                        <Link href={`/urunler/${p.slug}`} className="relative h-52 overflow-hidden block">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={p.image}
+                                                alt={p.alt}
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-industrial-900/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            {badge ? (
+                                                <span className="absolute top-4 left-4 px-3 py-1 bg-safety text-white text-xs font-semibold rounded-full">
+                                                    {badge}
+                                                </span>
+                                            ) : null}
+                                        </Link>
+                                        <div className="p-6 flex flex-col flex-1">
+                                            <h3 className="text-xl font-bold text-industrial-900 mb-2 font-montserrat">
+                                                <Link
+                                                    href={`/urunler/${p.slug}`}
+                                                    className="hover:text-safety transition-colors"
+                                                >
+                                                    {p.title}
+                                                </Link>
+                                            </h3>
+                                            {p.description ? (
+                                                <p className="text-industrial-500 text-sm mb-4 line-clamp-3">{p.description}</p>
+                                            ) : null}
+                                            <Link
+                                                href={`/urunler/${p.slug}`}
+                                                className="mt-auto inline-flex items-center gap-2 text-safety font-semibold text-sm group/cta"
+                                            >
+                                                Detaylı Bilgi
+                                                <svg
+                                                    className="w-4 h-4 transition-transform group-hover/cta:translate-x-1"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                                    />
+                                                </svg>
+                                            </Link>
+                                        </div>
+                                    </article>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </section>
+            ) : null}
 
             {/* CTA */}
             <section className="bg-deep text-white px-4 sm:px-6 lg:px-8 py-14">

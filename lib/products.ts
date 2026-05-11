@@ -1,26 +1,23 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { categories, defaultProducts, type Product, type ProductCategory, type ProductSpec } from "@/lib/products-schema";
+import { defaultProducts, type Product, type ProductCategory } from "@/lib/products-schema";
 import { sanitizeSlug } from "@/lib/seo-rules";
 
 const dataDir = path.join(process.cwd(), "data");
 const productsPath = path.join(dataDir, "products.json");
-const allowedCategories: ProductCategory[] = ["borular", "profiller", "saclar", "hadde"];
 
-function sanitizeSpec(spec: Partial<ProductSpec>): ProductSpec {
-    return {
-        label: String(spec.label ?? "").trim(),
-        value: String(spec.value ?? "").trim(),
-    };
+function sanitizeCategoryKey(raw: unknown): ProductCategory {
+    const s = sanitizeSlug(String(raw ?? ""));
+    return s || "borular";
 }
 
 function sanitizeProduct(product: Partial<Product>): Product {
-    const category = String(product.category ?? "borular") as ProductCategory;
+    const category = sanitizeCategoryKey(product.category);
     return {
         slug: sanitizeSlug(String(product.slug ?? "")),
         seoTitle: product.seoTitle ? String(product.seoTitle).trim() : undefined,
         seoDescription: product.seoDescription ? String(product.seoDescription).trim() : undefined,
-        category: allowedCategories.includes(category) ? category : "borular",
+        category,
         badge: String(product.badge ?? "").trim(),
         image: String(product.image ?? "").trim(),
         alt: String(product.alt ?? "").trim(),
@@ -28,7 +25,6 @@ function sanitizeProduct(product: Partial<Product>): Product {
         description: String(product.description ?? "").trim(),
         bullets: Array.isArray(product.bullets) ? product.bullets.map((b) => String(b).trim()).filter(Boolean) : [],
         longDescription: String(product.longDescription ?? "").trim(),
-        specs: Array.isArray(product.specs) ? product.specs.map((s) => sanitizeSpec(s ?? {})).filter((s) => s.label && s.value) : [],
         usage: Array.isArray(product.usage) ? product.usage.map((u) => String(u).trim()).filter(Boolean) : [],
         delay: product.delay ? String(product.delay).trim() : undefined,
     };
@@ -60,5 +56,5 @@ export async function getProductBySlug(slug: string): Promise<Product | undefine
     return allProducts.find((p) => p.slug === slug);
 }
 
-export { categories, defaultProducts };
-export type { Product, ProductCategory, ProductSpec };
+export { defaultProducts };
+export type { Product, ProductCategory };

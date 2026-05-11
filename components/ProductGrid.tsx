@@ -3,20 +3,22 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { categories, type Product, type ProductCategory } from "@/lib/products-schema";
+import type { Category } from "@/lib/category-schema";
+import type { Product } from "@/lib/products-schema";
 
-type Filter = "all" | ProductCategory;
+type Filter = "all" | string;
+
 type ProductGridProps = {
     products: Product[];
+    categories: Category[];
 };
 
-const filters: { key: Filter; label: string }[] = [
-    { key: "all", label: "Tümü" },
-    ...categories.map((c) => ({ key: c.key, label: c.label })),
-];
-
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({ products, categories }: ProductGridProps) {
     const [active, setActive] = useState<Filter>("all");
+    const filters: { key: Filter; label: string }[] = [
+        { key: "all", label: "Tümü" },
+        ...categories.map((c) => ({ key: c.key, label: c.label })),
+    ];
     const visible = products.filter((p) => active === "all" || p.category === active);
     useScrollReveal([active, visible.length]);
 
@@ -41,10 +43,11 @@ export default function ProductGrid({ products }: ProductGridProps) {
                             key={f.key}
                             type="button"
                             onClick={() => setActive(f.key)}
-                            className={`filter-btn px-6 py-2.5 rounded-full text-sm font-semibold border-2 border-industrial-200 transition-all ${active === f.key
-                                ? "active bg-safety border-safety text-white"
-                                : "bg-white text-industrial-700 hover:border-safety hover:text-safety"
-                                }`}
+                            className={`filter-btn px-6 py-2.5 rounded-full text-sm font-semibold border-2 border-industrial-200 transition-all ${
+                                active === f.key
+                                    ? "active bg-safety border-safety text-white"
+                                    : "bg-white text-industrial-700 hover:border-safety hover:text-safety"
+                            }`}
                         >
                             {f.label}
                         </button>

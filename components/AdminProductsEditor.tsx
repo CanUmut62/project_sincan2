@@ -1,7 +1,8 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
-import { categories, type Product, type ProductCategory } from "@/lib/products-schema";
+import type { Category } from "@/lib/category-schema";
+import type { Product, ProductCategory } from "@/lib/products-schema";
 
 function emptyProduct(): Product {
     return {
@@ -14,7 +15,6 @@ function emptyProduct(): Product {
         description: "",
         bullets: [],
         longDescription: "",
-        specs: [],
         usage: [],
     };
 }
@@ -27,28 +27,9 @@ function fromLines(text: string) {
     return text.split("\n").map((s) => s.trim()).filter(Boolean);
 }
 
-function specsToLines(specs: Product["specs"]) {
-    return specs.map((s) => `${s.label}: ${s.value}`).join("\n");
-}
-
-function specsFromLines(text: string): Product["specs"] {
-    return text
-        .split("\n")
-        .map((line) => line.trim())
-        .filter(Boolean)
-        .map((line) => {
-            const idx = line.indexOf(":");
-            if (idx === -1) return null;
-            const label = line.slice(0, idx).trim();
-            const value = line.slice(idx + 1).trim();
-            if (!label || !value) return null;
-            return { label, value };
-        })
-        .filter((v): v is { label: string; value: string } => Boolean(v));
-}
-
 export default function AdminProductsEditor() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -56,14 +37,21 @@ export default function AdminProductsEditor() {
 
     useEffect(() => {
         async function load() {
-            const res = await fetch("/api/admin/products", { cache: "no-store" });
-            if (!res.ok) {
+            const [prodRes, catRes] = await Promise.all([
+                fetch("/api/admin/products", { cache: "no-store" }),
+                fetch("/api/admin/categories", { cache: "no-store" }),
+            ]);
+            if (!prodRes.ok) {
                 setMessage("Ürün verisi alınamadı.");
                 setLoading(false);
                 return;
             }
-            const data = (await res.json()) as { products: Product[] };
+            const data = (await prodRes.json()) as { products: Product[] };
             setProducts(data.products);
+            if (catRes.ok) {
+                const catData = (await catRes.json()) as { categories: Category[] };
+                setCategories(catData.categories);
+            }
             setSelectedIndex(0);
             setLoading(false);
         }
@@ -176,8 +164,16 @@ export default function AdminProductsEditor() {
                                 onChange={(e) => setField(selectedIndex, "category", e.target.value as ProductCategory)}
                                 className="rounded-lg border border-industrial-200 px-3 py-2"
                             >
+                                {selectedProduct.category &&
+                                !categories.some((c) => c.key === selectedProduct.category) ? (
+                                    <option value={selectedProduct.category}>
+                                        {selectedProduct.category} (tanımsız kategori)
+                                    </option>
+                                ) : null}
                                 {categories.map((c) => (
-                                    <option key={c.key} value={c.key}>{c.label}</option>
+                                    <option key={c.key} value={c.key}>
+                                        {c.label}
+                                    </option>
                                 ))}
                             </select>
                             <input value={selectedProduct.title} onChange={(e) => setField(selectedIndex, "title", e.target.value)} placeholder="Başlık" className="rounded-lg border border-industrial-200 px-3 py-2" />
@@ -205,8 +201,30 @@ export default function AdminProductsEditor() {
                             className="w-full rounded-lg border border-industrial-200 px-3 py-2"
                         />
 
-                        <textarea value={selectedProduct.description} onChange={(e) => setField(selectedIndex, "description", e.target.value)} placeholder="Kısa açıklama" rows={2} className="w-full rounded-lg border border-industrial-200 px-3 py-2" />
-                        <textarea value={selectedProduct.longDescription} onChange={(e) => setField(selectedIndex, "longDescription", e.target.value)} placeholder="Detay açıklama" rows={4} className="w-full rounded-lg border border-industrial-200 px-3 py-2" />
+                        <div className="space-y-1">
+                            <label className="text-xs font-semibold text-industrial-500 uppercase tracking-wide">
+                                Kısa özet (liste kartı ve ürün üst alanı)
+                            </label>
+                            <textarea
+                                value={selectedProduct.description}
+                                onChange={(e) => setField(selectedIndex, "description", e.target.value)}
+                                placeholder="Ürün kartında ve detay sayfası üst bölümünde görünen kısa metin"
+                                rows={3}
+                                className="w-full rounded-lg border border-industrial-200 px-3 py-2"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-xs font-semibold text-industrial-500 uppercase tracking-wide">
+                                Açıklama (ürün detay — ayrı bölüm)
+                            </label>
+                            <textarea
+                                value={selectedProduct.longDescription}
+                                onChange={(e) => setField(selectedIndex, "longDescription", e.target.value)}
+                                placeholder="Detay sayfasında “Açıklama” başlığı altında gösterilir. Satır sonları korunur."
+                                rows={8}
+                                className="w-full rounded-lg border border-industrial-200 px-3 py-2"
+                            />
+                        </div>
 
                         <div className="grid md:grid-cols-2 gap-3">
                             <textarea
@@ -224,14 +242,6 @@ export default function AdminProductsEditor() {
                                 className="w-full rounded-lg border border-industrial-200 px-3 py-2"
                             />
                         </div>
-
-                        <textarea
-                            value={specsToLines(selectedProduct.specs)}
-                            onChange={(e) => setProducts((prev) => prev.map((p, i) => (i === selectedIndex ? { ...p, specs: specsFromLines(e.target.value) } : p)))}
-                            placeholder={"Teknik özellikler (Label: Value formatında, her satıra bir kayıt)"}
-                            rows={5}
-                            className="w-full rounded-lg border border-industrial-200 px-3 py-2"
-                        />
                     </div>
                 ) : (
                     <div className="border border-dashed border-industrial-200 rounded-xl p-8 text-sm text-industrial-500">

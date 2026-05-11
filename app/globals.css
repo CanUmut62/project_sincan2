@@ -211,3 +211,29 @@ h6 {
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+/* Sabit yukarı ok — Tailwind’dan bağımsız, translateY animasyonu her zaman üretilir */
+@keyframes scroll-top-arrow-float {
+
+    0%,
+    100% {
+        transform: translate3d(0, 6px, 0);
+    }
+
+    50% {
+        transform: translate3d(0, -16px, 0);
+    }
+}
+
+.floating-scroll-arrow {
+    display: inline-flex;
+    animation: scroll-top-arrow-float 1.75s ease-in-out infinite;
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floating-scroll-arrow {
+        animation: none;
+        transform: none;
+    }
+}

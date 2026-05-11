@@ -44,6 +44,7 @@ export default function Navbar() {
         }`;
 
     return (
+        <>
         <header className={headerClasses}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between">
@@ -126,7 +127,8 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
-            <ContactModal isOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} />
         </header>
+        <ContactModal isOpen={contactModalOpen} onClose={() => setContactModalOpen(false)} />
+        </>
     );
 }

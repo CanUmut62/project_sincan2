@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 
 const menuItems = [
     { href: "/admin/hero", label: "Hero Yönetimi" },
+    { href: "/admin/kategoriler", label: "Kategori Yönetimi" },
     { href: "/admin/urunler", label: "Ürün Yönetimi" },
+    { href: "/admin/is-ortaklari", label: "İş Ortakları" },
     { href: "/admin/iletisim", label: "İletişim Yönetimi" },
 ];
 

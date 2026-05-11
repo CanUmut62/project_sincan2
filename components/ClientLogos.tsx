@@ -1,67 +1,73 @@
-const companies = [
-    { name: "Kılıç İnşaat", sector: "İnşaat", initials: "Kİ", color: "bg-[#1E3A5F]" },
-    { name: "Tekno Makina", sector: "Makina", initials: "TM", color: "bg-[#FF5733]" },
-    { name: "Atlas Enerji", sector: "Enerji", initials: "AE", color: "bg-[#1E3A5F]" },
-    { name: "Yeşilova Tarım", sector: "Tarım", initials: "YT", color: "bg-[#2e7d32]" },
-    { name: "Türksan Otomotiv", sector: "Otomotiv", initials: "TO", color: "bg-[#FF5733]" },
-    { name: "Pınar Gıda", sector: "Gıda", initials: "PG", color: "bg-[#1565c0]" },
-    { name: "Metalim Endüstri", sector: "Sanayi", initials: "ME", color: "bg-[#1E3A5F]" },
-    { name: "Güneş Enerji", sector: "Enerji", initials: "GE", color: "bg-[#f57f17]" },
-    { name: "Demir-Al Yapı", sector: "İnşaat", initials: "DA", color: "bg-[#FF5733]" },
-    { name: "ProMakina A.Ş.", sector: "Makina", initials: "PM", color: "bg-[#1E3A5F]" },
-    { name: "Sarıkaya Metal", sector: "Metal", initials: "SM", color: "bg-[#4a148c]" },
-    { name: "Ova Tarım Ltd.", sector: "Tarım", initials: "OT", color: "bg-[#2e7d32]" },
-];
+import type { Partner } from "@/lib/partners-schema";
 
-const doubled = [...companies, ...companies];
+type Props = {
+    partners: Partner[];
+};
 
-export default function ClientLogos() {
+/**
+ * Şeridi yeterince uzatır (viewport'tan geniş); her segment aynı sıra olduğu için
+ * translateX(-100/n) ile dikişsiz döngü kurulur.
+ */
+function segmentCountFor(partnerCount: number): number {
+    const minSlots = 36;
+    return Math.max(4, Math.min(32, Math.ceil(minSlots / Math.max(partnerCount, 1))));
+}
+
+export default function ClientLogos({ partners }: Props) {
+    if (!partners.length) {
+        return null;
+    }
+
+    const segments = segmentCountFor(partners.length);
+    const track = Array.from({ length: segments }, () => partners).flat();
+    const shiftPercent = 100 / segments;
+    const baseDurationSec = 3;
+    const durationSec = Math.round(baseDurationSec * (segments / 2));
+
     return (
-        <section className="bg-white border-y border-industrial-100 py-14">
+        <section className="bg-white border-y border-industrial-100 py-14 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
-                <span className="text-safety font-semibold text-sm tracking-widest uppercase mb-3 block">
-                    Referans Firmalarımız
-                </span>
-                <h2 className="text-3xl md:text-4xl font-bold text-industrial-900 font-montserrat">
-                    Güven Duyan İş Ortakları
-                </h2>
+                <span className="text-safety font-semibold text-sm tracking-widest uppercase mb-3 block">Referanslar</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-industrial-900 font-montserrat">Güven Duyan İş Ortakları</h2>
                 <p className="mt-3 text-industrial-500 max-w-xl mx-auto">
-                    Türkiye'nin farklı sektörlerindeki firmalar uzun süredir bizimle çalışmaktadır.
+                    Türkiye&apos;nin farklı sektörlerindeki firmalar uzun süredir bizimle çalışmaktadır.
                 </p>
             </div>
 
-            <div className="overflow-hidden">
-                <div className="marquee-track flex gap-4 w-max">
-                    {doubled.map((c, i) => (
-                        <div
-                            key={`${c.name}-${i}`}
-                            className="flex items-center gap-3 px-5 py-3.5 bg-industrial-50 border border-industrial-100 rounded-2xl flex-shrink-0 hover:border-safety/40 hover:bg-white hover:shadow-md transition-all duration-300 group cursor-default"
-                        >
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-white to-transparent z-10" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-white to-transparent z-10" />
+                <div className="overflow-hidden">
+                    <div className="partners-marquee flex items-center gap-10 sm:gap-14 md:gap-16 w-max py-2">
+                        {track.map((p, i) => (
                             <div
-                                className={`w-11 h-11 rounded-xl ${c.color} text-white flex items-center justify-center font-bold text-sm font-montserrat flex-shrink-0 shadow-sm`}
+                                key={`${p.id}-${i}`}
+                                className="flex-shrink-0 flex items-center justify-center min-w-[120px]"
+                                title={p.name}
                             >
-                                {c.initials}
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    src={p.logoUrl}
+                                    alt={p.name}
+                                    className="h-12 sm:h-14 md:h-16 w-auto max-w-[160px] object-contain"
+                                    loading="lazy"
+                                />
                             </div>
-                            <div className="min-w-0">
-                                <p className="text-sm font-bold text-industrial-900 whitespace-nowrap leading-tight">
-                                    {c.name}
-                                </p>
-                                <p className="text-xs text-industrial-400 whitespace-nowrap">{c.sector}</p>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
             <style>{`
-                @keyframes marquee {
-                    from { transform: translateX(0); }
-                    to   { transform: translateX(-50%); }
+                @keyframes partners-marquee-loop {
+                    from { transform: translate3d(0, 0, 0); }
+                    to   { transform: translate3d(-${shiftPercent}%, 0, 0); }
                 }
-                .marquee-track {
-                    animation: marquee 40s linear infinite;
+                .partners-marquee {
+                    animation: partners-marquee-loop ${durationSec}s linear infinite;
+                    will-change: transform;
                 }
-                .marquee-track:hover {
+                .partners-marquee:hover {
                     animation-play-state: paused;
                 }
             `}</style>

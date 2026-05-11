@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ProductGrid from "@/components/ProductGrid";
+import { getCategories } from "@/lib/categories";
 import { getProducts } from "@/lib/products";
 
 export const metadata: Metadata = {
@@ -10,10 +11,11 @@ export const metadata: Metadata = {
 
 export default async function UrunlerPage() {
     const products = await getProducts();
+    const categories = await getCategories();
 
     return (
         <main className="pt-24">
-            <ProductGrid products={products} />
+            <ProductGrid products={products} categories={categories} />
         </main>
     );
 }
